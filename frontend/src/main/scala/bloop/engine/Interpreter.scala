@@ -22,9 +22,9 @@ object Interpreter {
         printAbout(cliOptions)
       }
       execute(next, logger)
-    case Run(Commands.Clean(projects, cliOptions), next) =>
+    case Run(Commands.Clean(projects, aggregate, cliOptions), next) =>
       logger.verboseIf(cliOptions.verbose) {
-        clean(projects, cliOptions, logger)
+        clean(projects, aggregate, cliOptions, logger)
       }
       execute(next, logger)
     case Run(Commands.Compile(projectName, incremental, scalacstyle, cliOptions), next) =>
@@ -166,15 +166,17 @@ object Interpreter {
   }
 
   private def clean(projectNames: List[String],
+                    aggregate: Boolean,
                     cliOptions: CliOptions,
                     logger: Logger): ExitStatus = {
     val configDir = getConfigDir(cliOptions)
     val projects = Project.fromDir(configDir, logger)
-    val notFoundProjects = projectNames.toSet -- projects.keySet
+    val projectsToClean = if (aggregate) projects.keys.toList else projectNames
+    val notFoundProjects = projectsToClean.toSet -- projects.keySet
 
     if (notFoundProjects.isEmpty) {
       val tasks = compilationTasks(projects, logger)
-      val cleanProjects = tasks.clean(projectNames)
+      val cleanProjects = tasks.clean(projectsToClean)
       Project.update(configDir, cleanProjects)
       ExitStatus.Ok
     } else {
