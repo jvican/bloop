@@ -9,7 +9,6 @@
 <url> <loc>https://jvican.github.io/bloop/blog/2017/09/25/testing-rss</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://jvican.github.io/bloop/blog/2017/04/10/blog-post-two</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://jvican.github.io/bloop/blog/2016/03/11/blog-post</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
-<url> <loc>https://jvican.github.io/bloop/docs/basics</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/basics" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/cli-reference</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/cli-reference" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/gradle</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/gradle" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/integration</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/integration" /> </url>
@@ -24,4 +23,5 @@
 <url> <loc>https://jvican.github.io/bloop/docs/tools/universal/install</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/tools/universal/install" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/tools/universal/usage</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/tools/universal/usage" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/usage</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/usage" /> </url>
+<url> <loc>https://jvican.github.io/bloop/docs/what-is-bloop</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/what-is-bloop" /> </url>
 </urlset>
