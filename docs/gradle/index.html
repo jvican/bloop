@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Exporting Gradle builds to bloop · Bloop</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;Gradle 4.8.x uses a three years old version of Zinc (Scala&#x27;s incremental compiler) which [misses out&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Exporting Gradle builds to bloop · Bloop"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalacenter.github.io/bloop/index.html"/><meta property="og:description" content="&lt;p&gt;Gradle 4.8.x uses a three years old version of Zinc (Scala&#x27;s incremental compiler) which [misses out&lt;/p&gt;
+"/><meta property="og:image" content="https://scalacenter.github.io/bloop/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://scalacenter.github.io/bloop/img/docusaurus.png"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css"/><link rel="stylesheet" href="/css/code-block-buttons.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/scripts/code-block-buttons.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/orca-whale-white.svg" alt="Bloop"/><h2 class="headerTitleWithLogo">Bloop</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/setup" target="_self">Setup</a></li><li class="siteNavGroupActive"><a href="/docs/basics" target="_self">Docs</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://github.com/scalacenter/bloop" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Build Tools</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">General</h3><ul><li class="navListItem"><a class="navItem" href="/docs/basics">Learn the Basics</a></li><li class="navListItem"><a class="navItem" href="/docs/usage">Usage Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/cli-reference">CLI Reference</a></li><li class="navListItem"><a class="navItem" href="/docs/integration">Integration guide</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Build Tools</h3><ul><li class="navListItem"><a class="navItem" href="/docs/sbt">sbt</a></li><li class="navListItem"><a class="navItem" href="/docs/maven">Maven</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/gradle">Gradle</a></li><li class="navListItem"><a class="navItem" href="/docs/mill">Mill</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Contributing</h3><ul><li class="navListItem"><a class="navItem" href="/docs/project-goals">Project Goals</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/scalacenter/bloop/edit/master/docs/gradle.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Exporting Gradle builds to bloop</h1></header><article><div><span><p>Gradle 4.8.x uses a three years old version of Zinc (Scala's incremental compiler) which <a href="https://www.scala-lang.org/blog/2017/11/03/zinc-blog-1.0.html">misses out
+on a lot of improvements with regards to performance and correctness in
+1.x</a>. Installing bloop makes a big
+difference in Gradle builds.</p>
+<h2><a class="anchor" aria-hidden="true" id="install-the-plugin"></a><a href="#install-the-plugin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install the Plugin</h2>
+<p>Install bloop in <code>build.gradle</code>:</p>
+<pre><code class="hljs css language-groovy">buildscript <span class="token punctuation">{</span>
+  repositories <span class="token punctuation">{</span>
+    <span class="token comment">// Add here whatever repositories you're already using</span>
+    <span class="token function">mavenCentral</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  dependencies <span class="token punctuation">{</span>
+    classpath <span class="token string">'ch.epfl.scala:gradle-bloop_2.11:1.0.0+37-ad2ae774'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Then, apply the plugin to the build projects you use to use from bloop. You can do it for all the
+projects in the build (the most common use case).</p>
+<pre><code class="hljs css language-groovy">allprojects <span class="token punctuation">{</span>
+  apply plugin <span class="token string">'bloop'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Or, selectively per project:</p>
+<pre><code class="hljs css language-groovy">apply plugin <span class="token string">'bloop'</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="export-the-build"></a><a href="#export-the-build" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Export the Build</h2>
+<p>The gradle command <code>bloopInstall</code> exports your gradle build to bloop.</p>
+<p>The gradle plugin generates a configuration file per <a href="https://docs.gradle.org/current/userguide/scala_plugin.html#sec:scala_source_set_properties">every source set in your build
+definition</a>.
+By default, there are two source sets: that of compile and that of test. Bloop will skip config file
+generation for those projects that are not either Java or Scala.</p>
+<pre><code class="hljs css language-bash">$ ./gradlew bloopInstall
+</code></pre>
+<p>For example, a build with a single Scala project <code>foo</code> generates two configuration files by default:</p>
+<pre><code class="hljs css language-bash">$ ./gradlew bloopInstall
+<span class="token punctuation">(</span><span class="token punctuation">..</span>.<span class="token punctuation">)</span>
+Generated <span class="token string">'/disk/foo/.bloop/foo.json'</span><span class="token keyword">.</span>
+Generated <span class="token string">'/disk/foo/.bloop/foo-test.json'</span><span class="token keyword">.</span>
+</code></pre>
+<p>where:</p>
+<ol>
+<li><code>foo</code> comes from the compile source set; and,</li>
+<li><code>foo-test</code> comes from the test source set and depends on <code>foo</code></li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="verify-installation-and-export"></a><a href="#verify-installation-and-export" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Verify Installation and Export</h2>
+<blockquote>
+<p>Remember that the build server must be running in the background, as suggested by the <a href="/setup">Setup
+page</a>.</p>
+</blockquote>
+<p>Verify your installation by running <code>bloop projects</code> in the root of the gradle workspace directory.</p>
+<pre><code class="hljs css language-bash">$ bloop projects
+foo
+foo-test
+</code></pre>
+<p>If the results of <code>bloop projects</code> is empty, check that:</p>
+<ol>
+<li>You are running the command-line invocation in the root base directory (e.g. <code>/disk/foo</code>).</li>
+<li>The gradle build export process completed successfully.</li>
+<li>The <code>.bloop/</code> configuration directory contains bloop configuration files.</li>
+</ol>
+<blockquote>
+<p>Debug the export with <code>./gradlew bloopInstall -Si</code>.</p>
+</blockquote>
+<p>If you suspect bloop is loading the configuration files from somewhere else, run <code>--verbose</code>:</p>
+<pre><code class="hljs css language-bash">$ bloop projects --verbose
+<span class="token punctuation">[</span>D<span class="token punctuation">]</span> Projects loaded from <span class="token string">'/my-project/.bloop'</span><span class="token keyword">:</span>
+foo
+foo-test
+</code></pre>
+<p>Here's a list of bloop commands you can run next to start playing with bloop:</p>
+<ol>
+<li><code>bloop compile --help</code>: shows the help section for compile.</li>
+<li><code>bloop compile foo-test</code>: compiles foo's <code>src/main</code> and <code>src/test</code>.</li>
+<li><code>bloop test foo-test -w</code>: runs foo tests repeatedly with file watching enabled.</li>
+</ol>
+<p>After verifying the export, you can continue using Bloop's command-line application or any build
+client integrating with Bloop, such as <a href="https://scalameta.org/metals/">Metals</a>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/maven"><span class="arrow-prev">← </span><span>Exporting Maven builds to bloop</span></a><a class="docs-next button" href="/docs/mill"><span>Export mill builds to bloop</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#install-the-plugin">Install the Plugin</a></li><li><a href="#export-the-build">Export the Build</a></li><li><a href="#verify-installation-and-export">Verify Installation and Export</a></li></ul></nav></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: 'cf5bcb37b134346182da2be3f5e0a76b',
+                indexName: 'bloop_scala',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["version:undefined"]}
+              });
+            </script></body></html>
