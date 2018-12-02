@@ -9,6 +9,10 @@
 <url> <loc>https://jvican.github.io/bloop/blog/2017/09/25/testing-rss</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://jvican.github.io/bloop/blog/2017/04/10/blog-post-two</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://jvican.github.io/bloop/blog/2016/03/11/blog-post</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
+<url> <loc>https://jvican.github.io/bloop/docs/build-tools/gradle/export</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/build-tools/gradle/export" /> </url>
+<url> <loc>https://jvican.github.io/bloop/docs/build-tools/maven/export</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/build-tools/maven/export" /> </url>
+<url> <loc>https://jvican.github.io/bloop/docs/build-tools/mill/export</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/build-tools/mill/export" /> </url>
+<url> <loc>https://jvican.github.io/bloop/docs/build-tools/sbt/export</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/build-tools/sbt/export" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/cli-reference</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/cli-reference" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/gradle</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/gradle" /> </url>
 <url> <loc>https://jvican.github.io/bloop/docs/integration</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://jvican.github.io/bloop/docs/integration" /> </url>

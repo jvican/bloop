@@ -22,7 +22,7 @@
   function reset() {
     if (currentItem) {
       for (let i = 0; i < currentItem.length; i++) {
-        currentItem[i].style.display = "none";
+        $(currentItem[i]).hide();
       }
     }
     if (currentNav) {
@@ -30,7 +30,7 @@
     }
     currentItem = currentNav = null;
     for (let i = 0; i < stepHidden.length; i++) {
-      stepHidden[i].removeAttribute("style");
+      $(stepHidden[i]).hide();
     }
   }
 
@@ -51,10 +51,10 @@
         "[data-title=" + name + "]:not(.tools-button)"
       );
       for (let i = 0; i < currentItem.length; i++) {
-        currentItem[i].style.display = "block";
+        $(currentItem[i]).show();
       }
       for (let i = 0; i < stepHidden.length; i++) {
-        stepHidden[i].style.display = "block";
+        $(stepHidden[i]).show();
       }
     };
   }
